@@ -20,7 +20,7 @@ class SEModule(torch.nn.Module):
         )
 
     def forward(self, x):
-        b, c, _ = x.size()
+        b, c, _, _= x.size()
         y = self.avg_pool(x).view(b, c)
         y = self.fc(y).view(b, c, 1, 1)
         return x * y.expand_as(x) 
@@ -28,7 +28,7 @@ class SEModule(torch.nn.Module):
 class Hswish(torch.nn.Module):
     def __init__(self, inplace=True):
         super(Hswish, self).__init__()
-         self.inplace = inplace
+        self.inplace = inplace
     
     def forward(self, x):
         return x * torch.nn.functional.relu6(x + 3., inplace=self.inplace) / 6.   

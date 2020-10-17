@@ -4,19 +4,19 @@ from fuse import FuseBlock
 
 class FuseNet(torch.nn.Module):
     def __init__(self, H, W, C):
-        super(Net, self).__init__()
-        self.relu = torch.nn.ReLu()
+        super(FuseNet, self).__init__()
+        self.relu = torch.nn.ReLU()
         self.hswish = Hswish()
         self.conv1 = torch.nn.Conv2d(
             in_channels = C,
             out_channels = 16,
             stride = 2, 
             kernel_size = 3, 
-            padding = 0,
+            padding = 1 ,
         )
         self.fuse1 = FuseBlock(
             K = 3,
-            C = 3,
+            C = 16,
             stride = 2,
             is_SE = True, 
             NL = self.relu,
@@ -158,7 +158,7 @@ class FuseNet(torch.nn.Module):
     def forward(self, x):
         x = self.conv1(x)
         x = self.hswish(x)
-        x = self.fuse1(x) 
+        x = self.fuse1(x)
         x = self.fuse2(x)
         x = self.fuse3(x)
         x = self.fuse4(x)
@@ -168,7 +168,7 @@ class FuseNet(torch.nn.Module):
         x = self.fuse8(x)
         x = self.fuse9(x)
         x = self.fuse10(x)
-        x = self.fuse11(x)       
+        x = self.fuse11(x) 
         x = self.conv2(x)
         x = self.pool(x)
         x = self.conv3(x)
