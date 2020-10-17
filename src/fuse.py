@@ -1,5 +1,5 @@
 import torch
-from utils import *
+from src.utils import *
 
 class FuseBlock(torch.nn.Module):
     def __init__(self, K, C, stride, is_SE, NL, exp, oup):

@@ -1,6 +1,6 @@
 import torch
-from utils import Hswish
-from fuse import FuseBlock
+from src.utils import Hswish
+from src.fuse import FuseBlock
 
 class FuseNet(torch.nn.Module):
     def __init__(self, H, W, C):
