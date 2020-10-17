@@ -11,6 +11,7 @@ import torchvision
 from conf import settings
 from src.utils import get_training_dataloader, get_test_dataloader, WarmUpLR
 from src.model import FuseNet
+
 def train(epoch):
 
     start = time.time()
@@ -25,6 +26,8 @@ def train(epoch):
 
         optimizer.zero_grad()
         outputs = net(images)
+        #print(outputs.size())
+        #print(labels.size())
         loss = loss_function(outputs, labels)
         loss.backward()
         optimizer.step()
@@ -33,21 +36,22 @@ def train(epoch):
 
         last_layer = list(net.children())[-1]
         
-        print('Training Epoch: {epoch} [{trained_samples}/{total_samples}]\tLoss: {:0.4f}\tLR: {:0.6f}'.format(
+        print('\rTraining Epoch: {epoch} [{trained_samples}/{total_samples}]\tLoss: {:0.4f}\tLR: {:0.6f}'.format(
             loss.item(),
             optimizer.param_groups[0]['lr'],
             epoch=epoch,
             trained_samples=batch_index * args.b + len(images),
             total_samples=len(cifar100_training_loader.dataset)
-        ))
+        ), end = "")
+        sys.stdout.flush()
 
         #update training loss for each iteration
 
 
     finish = time.time()
 
-    print('epoch {} training time consumed: {:.2f}s'.format(epoch, finish - start))
-
+    print('\repoch {} training time consumed: {:.2f}s'.format(epoch, finish - start), end = "")
+    sys.stdout.flush()
 @torch.no_grad()
 def eval_training(epoch):
 
@@ -71,16 +75,19 @@ def eval_training(epoch):
 
     finish = time.time()
     if args.gpu:
-        print('GPU INFO.....')
+        print('\rGPU INFO.....', end = "")
+        sys.stdout.flush()
         print(torch.cuda.memory_summary(), end='')
-    print('Evaluating Network.....')
-    print('Test set: Average loss: {:.4f}, Accuracy: {:.4f}, Time consumed:{:.2f}s'.format(
+        sys.stdout.flush()
+    print('\rEvaluating Network.....', end = "")
+    sys.stdout.flush()
+    print('\rTest set: Average loss: {:.4f}, Accuracy: {:.4f}, Time consumed:{:.2f}s'.format(
         test_loss / len(cifar100_test_loader.dataset),
         correct.float() / len(cifar100_test_loader.dataset),
         finish - start
-    ))
-    print()
-
+    ), end = "")
+    sys.stdout.flush()
+    print('\n')
     #add informations to tensorboard
     return correct.float() / len(cifar100_test_loader.dataset)
 
@@ -120,7 +127,7 @@ if __name__ == '__main__':
     train_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=settings.MILESTONES, gamma=0.2) #learning rate decay
     iter_per_epoch = len(cifar100_training_loader)
     warmup_scheduler = WarmUpLR(optimizer, iter_per_epoch * args.warm)
-    checkpoint_path = os.path.join(settings.CHECKPOINT_PATH, args.net, settings.TIME_NOW)
+    checkpoint_path = os.path.join(settings.CHECKPOINT_PATH, 'fuse', settings.TIME_NOW)
 
     #create checkpoint folder to save model
     if not os.path.exists(checkpoint_path):
@@ -137,11 +144,11 @@ if __name__ == '__main__':
 
         #start to save best performance model after learning rate decay to 0.01
         if epoch > settings.MILESTONES[1] and best_acc < acc:
-            torch.save(net.state_dict(), checkpoint_path.format(net=args.net, epoch=epoch, type='best'))
+            torch.save(net.state_dict(), checkpoint_path.format(net='fuse', epoch=epoch, type='best'))
             best_acc = acc
             continue
 
         if not epoch % settings.SAVE_EPOCH:
-            torch.save(net.state_dict(), checkpoint_path.format(net=args.net, epoch=epoch, type='regular'))
+            torch.save(net.state_dict(), checkpoint_path.format(net='fuse', epoch=epoch, type='regular'))
 
 

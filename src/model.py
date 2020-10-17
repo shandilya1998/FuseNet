@@ -174,4 +174,6 @@ class FuseNet(torch.nn.Module):
         x = self.conv3(x)
         x = self.dropout(x)
         x = self.conv4(x)
+        b = x.size()[0]
+        x = torch.reshape(x, (b, 100))
         return x
