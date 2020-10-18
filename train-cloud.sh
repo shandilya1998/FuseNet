@@ -53,6 +53,20 @@ gcloud beta ai-platform jobs submit training ${JOB_NAME} \
     --region ${REGION} \
     --master-image-uri ${IMAGE_URI} \
     --scale-tier BASIC_GPU \
+    --job-dir ${JOB_DIR} \
+    --gpu True \
+    --batch-size 128 \
+    --warm 1 \
+    --learning-rate 0.01 \
+    --momentum 0.6 \
+    --height 224 \
+    --width 224 \
+    --channels 3 \
+    --epochs 120 \
+    --seed 42 \
+    --log-interval 20 \
+    --gamma 0.2 \
+    --weight-decay 5e-4 \ 
 
 # Stream the logs from the job
 gcloud ai-platform jobs stream-logs ${JOB_NAME}
