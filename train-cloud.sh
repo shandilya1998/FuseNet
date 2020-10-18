@@ -34,7 +34,7 @@ JOB_NAME=custom_gpu_container_job_$(date +%Y%m%d_%H%M%S)
 
 # REGION: select a region from https://cloud.google.com/ml-engine/docs/regions
 # or use the default '`us-central1`'. The region is where the model will be deployed.
-REGION=asia-south1
+REGION=us-central1
 
 # Build the docker image
 docker build -f Dockerfile -t ${IMAGE_URI} ./
@@ -52,7 +52,7 @@ JOB_DIR=gs://${BUCKET_ID}/models/gpu
 gcloud beta ai-platform jobs submit training ${JOB_NAME} \
     --region ${REGION} \
     --master-image-uri ${IMAGE_URI} \
-    --scale-tier STANDARD-1 \
+    --scale-tier BASIC_GPU \
     -- \
     --job-dir ${JOB_DIR} \
     --gpu True \
@@ -74,4 +74,4 @@ gcloud ai-platform jobs stream-logs ${JOB_NAME}
 
 # Verify the model was exported
 echo "Verify the model was exported:"
-gsutil ls ${JOB_DIR}/model_*
+gsutil ls ${JOB_DIR}/checkpoint

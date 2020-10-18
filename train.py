@@ -233,7 +233,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print(args)
     net = FuseNet(args.height, args.width, args.channels)
-    
+
+    if args.gpu:
+        net.cuda()    
+
     wandb.init(entity="shandilya1998", project="assignment3-pytorch", config=args)
     wandb.watch_called = False
     MILESTONES = [int(args.epochs/4), int(args.epochs/2), int(3*args.epochs/4)]
