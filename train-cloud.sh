@@ -52,7 +52,8 @@ JOB_DIR=gs://${BUCKET_ID}/models/gpu
 gcloud beta ai-platform jobs submit training ${JOB_NAME} \
     --region ${REGION} \
     --master-image-uri ${IMAGE_URI} \
-    --scale-tier BASIC_GPU \
+    --scale-tier STANDARD-1 \
+    -- \
     --job-dir ${JOB_DIR} \
     --gpu True \
     --batch-size 128 \
@@ -66,7 +67,7 @@ gcloud beta ai-platform jobs submit training ${JOB_NAME} \
     --seed 42 \
     --log-interval 20 \
     --gamma 0.2 \
-    --weight-decay 5e-4 \ 
+    --weight-decay 5e-4  
 
 # Stream the logs from the job
 gcloud ai-platform jobs stream-logs ${JOB_NAME}

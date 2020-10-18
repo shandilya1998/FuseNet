@@ -1,0 +1,76 @@
+2020-10-18 16:48:08,953 INFO    MainThread:9668 [wandb_init.py:_log_setup():292] Logging user logs to wandb/run-20201018_164808-3qzxpmmm/logs/debug.log
+2020-10-18 16:48:08,953 INFO    MainThread:9668 [wandb_init.py:_log_setup():293] Logging internal logs to wandb/run-20201018_164808-3qzxpmmm/logs/debug-internal.log
+2020-10-18 16:48:08,954 INFO    MainThread:9668 [wandb_setup.py:_flush():69] setting env: {}
+2020-10-18 16:48:08,954 INFO    MainThread:9668 [wandb_setup.py:_flush():69] setting user settings: {'email': 'shandilya.shreyas@gmail.com'}
+2020-10-18 16:48:08,954 INFO    MainThread:9668 [wandb_setup.py:_flush():69] multiprocessing start_methods=fork,spawn,forkserver
+2020-10-18 16:48:11,635 INFO    MainThread:9668 [wandb_run.py:_console_start():1276] atexit reg
+2020-10-18 16:48:11,637 INFO    MainThread:9668 [wandb_run.py:_redirect():1146] redirect: SettingsConsole.REDIRECT
+2020-10-18 16:48:11,637 INFO    MainThread:9668 [wandb_run.py:_redirect():1149] Redirecting console.
+2020-10-18 16:48:11,637 INFO    MainThread:9668 [redirect.py:install():196] install start
+2020-10-18 16:48:11,638 INFO    MainThread:9668 [redirect.py:install():211] install stop
+2020-10-18 16:48:11,638 INFO    MainThread:9668 [redirect.py:install():196] install start
+2020-10-18 16:48:11,639 INFO    MainThread:9668 [redirect.py:install():211] install stop
+2020-10-18 16:48:11,639 INFO    MainThread:9668 [wandb_run.py:_redirect():1193] Redirects installed.
+2020-10-18 16:50:53,944 INFO    MainThread:9668 [wandb_watch.py:watch():32] Watching
+2020-10-18 16:50:55,254 INFO    MainThread:9668 [wandb_run.py:_atexit_cleanup():1249] got exitcode: 1
+2020-10-18 16:50:55,255 INFO    MainThread:9668 [wandb_run.py:_restore():1221] restore
+2020-10-18 16:50:55,256 INFO    MainThread:9668 [redirect.py:uninstall():215] uninstall start
+2020-10-18 16:50:55,257 INFO    MainThread:9668 [redirect.py:_stop():264] _stop: stdout
+2020-10-18 16:50:55,258 INFO    MainThread:9668 [redirect.py:_stop():270] _stop closed: stdout
+2020-10-18 16:50:55,258 INFO    stdout    :9668 [redirect.py:_pipe_relay():119] relay done saw last write: stdout
+2020-10-18 16:50:55,258 INFO    stdout    :9668 [redirect.py:_pipe_relay():135] relay done done: stdout
+2020-10-18 16:50:55,259 INFO    MainThread:9668 [redirect.py:_stop():276] _stop joined: stdout
+2020-10-18 16:50:55,259 INFO    MainThread:9668 [redirect.py:_stop():278] _stop rd closed: stdout
+2020-10-18 16:50:55,259 INFO    MainThread:9668 [redirect.py:uninstall():219] uninstall done
+2020-10-18 16:50:55,259 INFO    MainThread:9668 [redirect.py:uninstall():215] uninstall start
+2020-10-18 16:50:55,259 INFO    MainThread:9668 [redirect.py:_stop():264] _stop: stderr
+2020-10-18 16:50:55,259 INFO    MainThread:9668 [redirect.py:_stop():270] _stop closed: stderr
+2020-10-18 16:50:55,259 INFO    stderr    :9668 [redirect.py:_pipe_relay():119] relay done saw last write: stderr
+2020-10-18 16:50:55,260 INFO    stderr    :9668 [redirect.py:_pipe_relay():135] relay done done: stderr
+2020-10-18 16:50:55,260 INFO    MainThread:9668 [redirect.py:_stop():276] _stop joined: stderr
+2020-10-18 16:50:55,260 INFO    MainThread:9668 [redirect.py:_stop():278] _stop rd closed: stderr
+2020-10-18 16:50:55,260 INFO    MainThread:9668 [redirect.py:uninstall():219] uninstall done
+2020-10-18 16:50:55,279 INFO    MainThread:9668 [wandb_run.py:_wait_for_finish():1360] got exit ret: uuid: "d01214ad9f394829b1c8cd77bef2d851"
+response {
+  poll_exit_response {
+    file_counts {
+      wandb_count: 1
+    }
+    pusher_stats {
+      uploaded_bytes: 1309
+      total_bytes: 1309
+    }
+  }
+}
+
+2020-10-18 16:50:57,285 INFO    MainThread:9668 [wandb_run.py:_wait_for_finish():1360] got exit ret: uuid: "a34ce3c11d104db3a5d234999f8c4aae"
+response {
+  poll_exit_response {
+    file_counts {
+      wandb_count: 5
+    }
+    pusher_stats {
+      uploaded_bytes: 247229
+      total_bytes: 247229
+    }
+  }
+}
+
+2020-10-18 16:50:59,290 INFO    MainThread:9668 [wandb_run.py:_wait_for_finish():1360] got exit ret: uuid: "95b028a2717a4667a7115ed6d9c4f61b"
+response {
+  poll_exit_response {
+    done: true
+    exit_result {
+    }
+    file_counts {
+      wandb_count: 5
+    }
+    pusher_stats {
+      uploaded_bytes: 247229
+      total_bytes: 247229
+    }
+  }
+}
+
+2020-10-18 16:51:00,440 INFO    MainThread:9668 [wandb_run.py:_show_files():1554] logging synced files
+2020-10-18 16:51:00,442 INFO    MainThread:9668 [internal.py:handle_exit():137] Internal process exited

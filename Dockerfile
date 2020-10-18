@@ -33,4 +33,4 @@ RUN pip install -r requirements.txt
 RUN wandb login 4a30a34490a130dc21329fd04548bfd9f01cb1ec
 
 # Set up the entry point to invoke the trainer.
-ENTRYPOINT ["python", "-u", "train.py", "gpu", "True", "-b", "128", "-warm", "1", "-lr", "0.01", "-m", "0.6", "-H", "224", "-W", "224", "-C", "3"]
+ENTRYPOINT ["python", "-u", "train.py"]

@@ -1,0 +1,12 @@
+Files already downloaded and verified
+Files already downloaded and verified
+Training Epoch: 1 [64/50000]	Loss: 4.6224	LR: 0.000013Training Epoch: 1 [128/50000]	Loss: 4.6330	LR: 0.000026Training Epoch: 1 [192/50000]	Loss: 4.6086	LR: 0.000038Training Epoch: 1 [256/50000]	Loss: 4.6660	LR: 0.000051Training Epoch: 1 [320/50000]	Loss: 4.6683	LR: 0.000064Training Epoch: 1 [384/50000]	Loss: 4.6440	LR: 0.000077Training Epoch: 1 [448/50000]	Loss: 4.6260	LR: 0.000090Training Epoch: 1 [512/50000]	Loss: 4.6045	LR: 0.000102Training Epoch: 1 [576/50000]	Loss: 4.6205	LR: 0.000115Training Epoch: 1 [640/50000]	Loss: 4.6624	LR: 0.000128Training Epoch: 1 [704/50000]	Loss: 4.6164	LR: 0.000141Traceback (most recent call last):
+  File "train.py", line 278, in <module>
+    train(epoch)
+  File "train.py", line 36, in train
+    loss.backward()
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/torch/tensor.py", line 195, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph)
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/torch/autograd/__init__.py", line 99, in backward
+    allow_unreachable=True)  # allow_unreachable flag
+KeyboardInterrupt

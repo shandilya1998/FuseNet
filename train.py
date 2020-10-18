@@ -48,11 +48,10 @@ def train(epoch):
             optimizer.param_groups[0]['lr'],
             epoch=epoch,
             trained_samples=batch_index * args.batch_size + len(images),
-            total_samples=len(cifar100_training_loader.dataset)
-        ), end = "")
+            total_samples=len(cifar100_training_loader.dataset)), end="")
         sys.stdout.flush()
-
-        if batch_index%config.log_interval==0:
+        
+        if batch_index%args.log_interval==0:
             wandb.log({
                 "Train Loss": loss.item(),
                 "LR":optimizer.param_groups[0]['lr']
@@ -62,10 +61,10 @@ def train(epoch):
 
 
     finish = time.time()
-
+    
     print('\repoch {} training time consumed: {:.2f}s'.format(epoch, finish - start), end = "")
     sys.stdout.flush()
-
+    
 
 @torch.no_grad()
 def eval_training(epoch):
@@ -135,32 +134,111 @@ def save_model(args, name):
     blob = bucket.blob(model_path)
     blob.upload_from_filename(name)
 
+def str2bool(v):
+    if isinstance(v, bool):
+       return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--gpu', action='store_true', default=False, help='use gpu or not')
-    parser.add_argument('--batch-size', type=int, default=128, help='batch size for dataloader')
-    parser.add_argument('--warm', type=int, default=1, help='warm up training phase')
-    parser.add_argument('--learning-rate', type=float, default=0.1, help='initial learning rate')
-    parser.add_argument('--momentum', type=float, default=0.5, help='momentum for SGD optimizer')
-    parser.add_argument('--height', type=int, default=224, help='height of input images')
-    parser.add_argument('--width', type=int, default=224, help='width of input images')
-    parser.add_argument('--channels', type=int, default=3, help='number of channels in input images')
-    parser.add_argument('--job-dir', type=int, default=3, help='path for saving images in gcs')
-    parser.add_argument('--epochs', type=int, default=120, help='number of epochs of training')
-    parser.add_argument('--gamma', type=float, default=0.2, help='learning rate decay rate')
-    parser.add_argument('--weight-decay', type=float, default=5e-4, help='weight decay rate')
-    parser.add_argument('--seed', type=int, default=42, help='random manual seed')
-    parser.add_argument('--log-interval', type=int, default=20, help='wandb log interval')
+    parser.add_argument(
+        '--gpu', 
+        type=str2bool, 
+        nargs='?', 
+        const=True, 
+        default=False, 
+        help='use gpu or not'
+    )
+    parser.add_argument(
+        '--batch-size', 
+        type=int, 
+        default=128, 
+        help='batch size for dataloader'
+    )
+    parser.add_argument(
+        '--warm', 
+        type=int, 
+        default=1, 
+        help='warm up training phase'
+    )
+    parser.add_argument(
+        '--learning-rate', 
+        type=float, 
+        default=0.1, 
+        help='initial learning rate'
+    )
+    parser.add_argument(
+        '--momentum', 
+        type=float, 
+        default=0.5, 
+        help='momentum for SGD optimizer'
+    )
+    parser.add_argument(
+        '--height', 
+        type=int, 
+        default=224, 
+        help='height of input images'
+    )
+    parser.add_argument(
+        '--width', 
+        type=int, 
+        default=224, 
+        help='width of input images'
+    )
+    parser.add_argument(
+        '--channels', 
+        type=int, default=3,    
+        help='number of channels in input images'
+    )
+    parser.add_argument(
+        '--job-dir', 
+        help='path for saving images in gcs'
+    )
+    parser.add_argument(
+        '--epochs', 
+        type=int, 
+        default=120, 
+        help='number of epochs of training'
+    )
+    parser.add_argument(
+        '--gamma', 
+        type=float, 
+        default=0.2, 
+        help='learning rate decay rate'
+    )
+    parser.add_argument(
+        '--weight-decay', 
+        type=float, 
+        default=5e-4, 
+        help='weight decay rate'
+    )
+    parser.add_argument(
+        '--seed', 
+        type=int, 
+        default=42, 
+        help='random manual seed'
+    )
+    parser.add_argument(
+        '--log-interval', 
+        type=int, 
+        default=20, 
+        help='wandb log interval'
+    )
     args = parser.parse_args()
-    #print(args)
+    print(args)
     net = FuseNet(args.height, args.width, args.channels)
     
     wandb.init(entity="shandilya1998", project="assignment3-pytorch", config=args)
     wandb.watch_called = False
     MILESTONES = [int(args.epochs/4), int(args.epochs/2), int(3*args.epochs/4)]
     
-    torch.manual_seed(config.seed)
+    torch.manual_seed(args.seed)
     #data preprocessing:
     cifar100_training_loader = get_training_dataloader(
         settings.CIFAR100_TRAIN_MEAN,
@@ -179,7 +257,7 @@ if __name__ == '__main__':
     )
 
     loss_function = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(net.parameters(), lr=args.learning_rate, momentum=config.momentum, weight_decay=args.weight_decay)
+    optimizer = torch.optim.SGD(net.parameters(), lr=args.learning_rate, momentum=args.momentum, weight_decay=args.weight_decay)
     train_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=MILESTONES, gamma=args.gamma) #learning rate decay
     iter_per_epoch = len(cifar100_training_loader)
     warmup_scheduler = WarmUpLR(optimizer, iter_per_epoch * args.warm)
