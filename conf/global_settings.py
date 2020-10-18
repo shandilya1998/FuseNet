@@ -21,4 +21,4 @@ MILESTONES = [60, 120, 160]
 #time of we run the script
 TIME_NOW = datetime.now().strftime('%A_%d_%B_%Y_%Hh_%Mm_%Ss')
 
-
+SAVE_EPOCH = 10

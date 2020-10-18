@@ -1,0 +1,37 @@
+{
+    "os": "Darwin-19.6.0-x86_64-i386-64bit",
+    "python": "3.7.3",
+    "heartbeatAt": "2020-10-18T04:38:42.612458",
+    "startedAt": "2020-10-18T04:38:40.106057",
+    "docker": null,
+    "cpu_count": 4,
+    "cuda": null,
+    "args": [
+        "-b",
+        "64",
+        "-warm",
+        "0",
+        "-lr",
+        "0.01",
+        "-m",
+        "0.6",
+        "-H",
+        "224",
+        "-W",
+        "224",
+        "-C",
+        "3"
+    ],
+    "state": "running",
+    "codePath": "train.py",
+    "program": "train.py",
+    "git": {
+        "remote": "https://github.com/shandilya1998/FuseNet",
+        "commit": "b32b6202c9bd6a00e7b0c95e333d3a8cbeb46bd3"
+    },
+    "email": "shandilya.shreyas@gmail.com",
+    "root": "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3",
+    "host": "Shreyass-Air.mshome.net",
+    "username": "shreyasshandilya",
+    "executable": "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/bin/python3"
+}

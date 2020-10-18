@@ -20,6 +20,21 @@ class SEModule(torch.nn.Module):
             Hsigmoid()
         )
 
+    def _initialize_weights(self):
+        # weight initialization
+        for m in self.modules():
+            if isinstance(m, torch.nn.Conv2d):
+                torch.nn.init.kaiming_normal_(m.weight, mode='fan_out')
+                if m.bias is not None:
+                    torch.nn.init.zeros_(m.bias)
+            elif isinstance(m, torch.nn.BatchNorm2d):
+                torch.nn.init.ones_(m.weight)
+                torch.nn.init.zeros_(m.bias)
+            elif isinstance(m, torch.nn.Linear):
+                torch.nn.init.normal_(m.weight, 0, 0.01)
+                if m.bias is not None:
+                    torch.nn.init.zeros_(m.bias)
+
     def forward(self, x):
         b, c, _, _= x.size()
         y = self.avg_pool(x).view(b, c)

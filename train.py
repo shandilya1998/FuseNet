@@ -12,14 +12,16 @@ from conf import settings
 from src.utils import get_training_dataloader, get_test_dataloader, WarmUpLR
 from src.model import FuseNet
 
+import warnings
+warnings.filterwarnings("ignore")
+
+import wandb
+
 def train(epoch):
 
     start = time.time()
     net.train()
     for batch_index, (images, labels) in enumerate(cifar100_training_loader):
-        if epoch <= args.warm:
-            warmup_scheduler.step()
-
         if args.gpu:
             labels = labels.cuda()
             images = images.cuda()
@@ -31,7 +33,10 @@ def train(epoch):
         loss = loss_function(outputs, labels)
         loss.backward()
         optimizer.step()
-
+        
+        if epoch <= args.warm:
+            warmup_scheduler.step()
+        
         n_iter = (epoch - 1) * len(cifar100_training_loader) + batch_index + 1
 
         last_layer = list(net.children())[-1]
@@ -45,6 +50,12 @@ def train(epoch):
         ), end = "")
         sys.stdout.flush()
 
+        if batch_index%config.log_interval==0:
+            wandb.log({
+                "Train Loss": loss.item(),
+                "LR":optimizer.param_groups[0]['lr']
+                })
+        
         #update training loss for each iteration
 
 
@@ -52,6 +63,8 @@ def train(epoch):
 
     print('\repoch {} training time consumed: {:.2f}s'.format(epoch, finish - start), end = "")
     sys.stdout.flush()
+
+
 @torch.no_grad()
 def eval_training(epoch):
 
@@ -61,6 +74,8 @@ def eval_training(epoch):
     test_loss = 0.0 # cost function error
     correct = 0.0
 
+    example_images = []
+    
     for (images, labels) in cifar100_test_loader:
 
         if args.gpu:
@@ -72,7 +87,7 @@ def eval_training(epoch):
         test_loss += loss.item()
         _, preds = outputs.max(1)
         correct += preds.eq(labels).sum()
-
+    
     finish = time.time()
     if args.gpu:
         print('\rGPU INFO.....', end = "")
@@ -89,6 +104,11 @@ def eval_training(epoch):
     sys.stdout.flush()
     print('\n')
     #add informations to tensorboard
+
+    wandb.log({
+        "Test Accuracy": 100. * correct / len(cifar100_test_loader.dataset),
+        "Test Loss": test_loss/len(cifar100_test_loader.dataset)})   
+ 
     return correct.float() / len(cifar100_test_loader.dataset)
 
 if __name__ == '__main__':
@@ -98,13 +118,28 @@ if __name__ == '__main__':
     parser.add_argument('-b', type=int, default=128, help='batch size for dataloader')
     parser.add_argument('-warm', type=int, default=1, help='warm up training phase')
     parser.add_argument('-lr', type=float, default=0.1, help='initial learning rate')
+    parser.add_argument('-m', type=float, default=0.5, help='momentum for SGD optimizer')
     parser.add_argument('-H', type=int, default=224, help='height of input images')
     parser.add_argument('-W', type=int, default=224, help='width of input images')
     parser.add_argument('-C', type=int, default=3, help='number of channels in input images')
     args = parser.parse_args()
     #print(args)
     net = FuseNet(args.H, args.W, args.C)
+    
+    wandb.init(entity="shandilya1998", project="assignment3-pytorch")
+    wandb.watch_called = False # Re-run the model without restarting the runtime, unnecessary after our next release
+    config = wandb.config         
+    config.batch_size = args.b
+    config.test_batch_size = args.b
+    config.epochs = settings.EPOCH         
+    config.lr = args.lr 
+    config.momentum = args.m          # SGD momentum (default: 0.5) 
+    config.no_cuda = args.gpu        # disables CUDA training
+    config.seed = 42               # random seed (default: 42)
+    config.log_interval = 20
 
+
+    torch.manual_seed(config.seed)
     #data preprocessing:
     cifar100_training_loader = get_training_dataloader(
         settings.CIFAR100_TRAIN_MEAN,
@@ -123,7 +158,7 @@ if __name__ == '__main__':
     )
 
     loss_function = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
+    optimizer = torch.optim.SGD(net.parameters(), lr=args.lr, momentum=config.momentum, weight_decay=5e-4)
     train_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=settings.MILESTONES, gamma=0.2) #learning rate decay
     iter_per_epoch = len(cifar100_training_loader)
     warmup_scheduler = WarmUpLR(optimizer, iter_per_epoch * args.warm)
@@ -134,6 +169,8 @@ if __name__ == '__main__':
         os.makedirs(checkpoint_path)
     checkpoint_path = os.path.join(checkpoint_path, '{net}-{epoch}-{type}.pth')
 
+    wandb.watch(net, log="all")
+    
     best_acc = 0.0
     for epoch in range(1, settings.EPOCH):
         if epoch > args.warm:
@@ -145,10 +182,11 @@ if __name__ == '__main__':
         #start to save best performance model after learning rate decay to 0.01
         if epoch > settings.MILESTONES[1] and best_acc < acc:
             torch.save(net.state_dict(), checkpoint_path.format(net='fuse', epoch=epoch, type='best'))
+            wandb.save(checkpoint_path.format(net='fuse', epoch=epoch, type='best'))
             best_acc = acc
             continue
 
         if not epoch % settings.SAVE_EPOCH:
             torch.save(net.state_dict(), checkpoint_path.format(net='fuse', epoch=epoch, type='regular'))
-
+            wandb.save(checkpoint_path.format(net='fuse', epoch=epoch, type='best'))
 

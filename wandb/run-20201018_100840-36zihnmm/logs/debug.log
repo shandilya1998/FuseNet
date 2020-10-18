@@ -1,0 +1,97 @@
+2020-10-18 10:08:40,109 INFO    MainThread:1335 [wandb_init.py:_log_setup():292] Logging user logs to wandb/run-20201018_100840-36zihnmm/logs/debug.log
+2020-10-18 10:08:40,109 INFO    MainThread:1335 [wandb_init.py:_log_setup():293] Logging internal logs to wandb/run-20201018_100840-36zihnmm/logs/debug-internal.log
+2020-10-18 10:08:40,109 INFO    MainThread:1335 [wandb_setup.py:_flush():69] setting env: {}
+2020-10-18 10:08:40,109 INFO    MainThread:1335 [wandb_setup.py:_flush():69] setting user settings: {'email': 'shandilya.shreyas@gmail.com'}
+2020-10-18 10:08:40,109 INFO    MainThread:1335 [wandb_setup.py:_flush():69] multiprocessing start_methods=fork,spawn,forkserver
+2020-10-18 10:08:42,677 INFO    MainThread:1335 [wandb_run.py:_console_start():1276] atexit reg
+2020-10-18 10:08:42,678 INFO    MainThread:1335 [wandb_run.py:_redirect():1146] redirect: SettingsConsole.REDIRECT
+2020-10-18 10:08:42,679 INFO    MainThread:1335 [wandb_run.py:_redirect():1149] Redirecting console.
+2020-10-18 10:08:42,679 INFO    MainThread:1335 [redirect.py:install():196] install start
+2020-10-18 10:08:42,679 INFO    MainThread:1335 [redirect.py:install():211] install stop
+2020-10-18 10:08:42,680 INFO    MainThread:1335 [redirect.py:install():196] install start
+2020-10-18 10:08:42,680 INFO    MainThread:1335 [redirect.py:install():211] install stop
+2020-10-18 10:08:42,680 INFO    MainThread:1335 [wandb_run.py:_redirect():1193] Redirects installed.
+2020-10-18 10:08:42,681 INFO    MainThread:1335 [wandb_config.py:__setitem__():64] config set batch_size = 64 - <bound method Run._config_callback of <wandb.sdk.wandb_run.Run object at 0x11bf76278>>
+2020-10-18 10:08:42,681 INFO    MainThread:1335 [wandb_run.py:_config_callback():586] config_cb batch_size 64 {'_wandb': {'cli_version': '0.10.7', 'python_version': '3.7.3', 'is_jupyter_run': False, 'is_kaggle_kernel': False, 'framework': 'torch'}, 'batch_size': 64}
+2020-10-18 10:08:42,682 INFO    MainThread:1335 [wandb_config.py:__setitem__():64] config set test_batch_size = 64 - <bound method Run._config_callback of <wandb.sdk.wandb_run.Run object at 0x11bf76278>>
+2020-10-18 10:08:42,682 INFO    MainThread:1335 [wandb_run.py:_config_callback():586] config_cb test_batch_size 64 {'_wandb': {'cli_version': '0.10.7', 'python_version': '3.7.3', 'is_jupyter_run': False, 'is_kaggle_kernel': False, 'framework': 'torch'}, 'batch_size': 64, 'test_batch_size': 64}
+2020-10-18 10:08:42,683 INFO    MainThread:1335 [wandb_config.py:__setitem__():64] config set epochs = 200 - <bound method Run._config_callback of <wandb.sdk.wandb_run.Run object at 0x11bf76278>>
+2020-10-18 10:08:42,683 INFO    MainThread:1335 [wandb_run.py:_config_callback():586] config_cb epochs 200 {'_wandb': {'cli_version': '0.10.7', 'python_version': '3.7.3', 'is_jupyter_run': False, 'is_kaggle_kernel': False, 'framework': 'torch'}, 'batch_size': 64, 'test_batch_size': 64, 'epochs': 200}
+2020-10-18 10:08:42,684 INFO    MainThread:1335 [wandb_config.py:__setitem__():64] config set lr = 0.01 - <bound method Run._config_callback of <wandb.sdk.wandb_run.Run object at 0x11bf76278>>
+2020-10-18 10:08:42,684 INFO    MainThread:1335 [wandb_run.py:_config_callback():586] config_cb lr 0.01 {'_wandb': {'cli_version': '0.10.7', 'python_version': '3.7.3', 'is_jupyter_run': False, 'is_kaggle_kernel': False, 'framework': 'torch'}, 'batch_size': 64, 'test_batch_size': 64, 'epochs': 200, 'lr': 0.01}
+2020-10-18 10:08:42,685 INFO    MainThread:1335 [wandb_config.py:__setitem__():64] config set momentum = 0.6 - <bound method Run._config_callback of <wandb.sdk.wandb_run.Run object at 0x11bf76278>>
+2020-10-18 10:08:42,685 INFO    MainThread:1335 [wandb_run.py:_config_callback():586] config_cb momentum 0.6 {'_wandb': {'cli_version': '0.10.7', 'python_version': '3.7.3', 'is_jupyter_run': False, 'is_kaggle_kernel': False, 'framework': 'torch'}, 'batch_size': 64, 'test_batch_size': 64, 'epochs': 200, 'lr': 0.01, 'momentum': 0.6}
+2020-10-18 10:08:42,686 INFO    MainThread:1335 [wandb_config.py:__setitem__():64] config set no_cuda = False - <bound method Run._config_callback of <wandb.sdk.wandb_run.Run object at 0x11bf76278>>
+2020-10-18 10:08:42,686 INFO    MainThread:1335 [wandb_run.py:_config_callback():586] config_cb no_cuda False {'_wandb': {'cli_version': '0.10.7', 'python_version': '3.7.3', 'is_jupyter_run': False, 'is_kaggle_kernel': False, 'framework': 'torch'}, 'batch_size': 64, 'test_batch_size': 64, 'epochs': 200, 'lr': 0.01, 'momentum': 0.6, 'no_cuda': False}
+2020-10-18 10:08:42,687 INFO    MainThread:1335 [wandb_config.py:__setitem__():64] config set seed = 42 - <bound method Run._config_callback of <wandb.sdk.wandb_run.Run object at 0x11bf76278>>
+2020-10-18 10:08:42,687 INFO    MainThread:1335 [wandb_run.py:_config_callback():586] config_cb seed 42 {'_wandb': {'cli_version': '0.10.7', 'python_version': '3.7.3', 'is_jupyter_run': False, 'is_kaggle_kernel': False, 'framework': 'torch'}, 'batch_size': 64, 'test_batch_size': 64, 'epochs': 200, 'lr': 0.01, 'momentum': 0.6, 'no_cuda': False, 'seed': 42}
+2020-10-18 10:08:42,688 INFO    MainThread:1335 [wandb_config.py:__setitem__():64] config set log_interval = 20 - <bound method Run._config_callback of <wandb.sdk.wandb_run.Run object at 0x11bf76278>>
+2020-10-18 10:08:42,688 INFO    MainThread:1335 [wandb_run.py:_config_callback():586] config_cb log_interval 20 {'_wandb': {'cli_version': '0.10.7', 'python_version': '3.7.3', 'is_jupyter_run': False, 'is_kaggle_kernel': False, 'framework': 'torch'}, 'batch_size': 64, 'test_batch_size': 64, 'epochs': 200, 'lr': 0.01, 'momentum': 0.6, 'no_cuda': False, 'seed': 42, 'log_interval': 20}
+2020-10-18 10:08:44,687 INFO    MainThread:1335 [wandb_watch.py:watch():32] Watching
+2020-10-18 10:10:33,651 INFO    MainThread:1335 [wandb_run.py:_atexit_cleanup():1249] got exitcode: 1
+2020-10-18 10:10:33,653 INFO    MainThread:1335 [wandb_run.py:_restore():1221] restore
+2020-10-18 10:10:33,653 INFO    MainThread:1335 [redirect.py:uninstall():215] uninstall start
+2020-10-18 10:10:33,653 INFO    MainThread:1335 [redirect.py:_stop():264] _stop: stdout
+2020-10-18 10:10:33,654 INFO    MainThread:1335 [redirect.py:_stop():270] _stop closed: stdout
+2020-10-18 10:10:33,654 INFO    stdout    :1335 [redirect.py:_pipe_relay():119] relay done saw last write: stdout
+2020-10-18 10:10:33,654 INFO    stdout    :1335 [redirect.py:_pipe_relay():135] relay done done: stdout
+2020-10-18 10:10:33,654 INFO    MainThread:1335 [redirect.py:_stop():276] _stop joined: stdout
+2020-10-18 10:10:33,654 INFO    MainThread:1335 [redirect.py:_stop():278] _stop rd closed: stdout
+2020-10-18 10:10:33,655 INFO    MainThread:1335 [redirect.py:uninstall():219] uninstall done
+2020-10-18 10:10:33,655 INFO    MainThread:1335 [redirect.py:uninstall():215] uninstall start
+2020-10-18 10:10:33,655 INFO    MainThread:1335 [redirect.py:_stop():264] _stop: stderr
+2020-10-18 10:10:33,655 INFO    MainThread:1335 [redirect.py:_stop():270] _stop closed: stderr
+2020-10-18 10:10:33,655 INFO    stderr    :1335 [redirect.py:_pipe_relay():119] relay done saw last write: stderr
+2020-10-18 10:10:33,655 INFO    stderr    :1335 [redirect.py:_pipe_relay():135] relay done done: stderr
+2020-10-18 10:10:33,655 INFO    MainThread:1335 [redirect.py:_stop():276] _stop joined: stderr
+2020-10-18 10:10:33,655 INFO    MainThread:1335 [redirect.py:_stop():278] _stop rd closed: stderr
+2020-10-18 10:10:33,655 INFO    MainThread:1335 [redirect.py:uninstall():219] uninstall done
+2020-10-18 10:10:33,659 INFO    MainThread:1335 [wandb_run.py:_wait_for_finish():1360] got exit ret: uuid: "8766ce7408864b4cb20fcc20e860e269"
+response {
+  poll_exit_response {
+    file_counts {
+      wandb_count: 1
+      media_count: 1
+    }
+    pusher_stats {
+      uploaded_bytes: 21158
+      total_bytes: 21158
+    }
+  }
+}
+
+2020-10-18 10:10:35,662 INFO    MainThread:1335 [wandb_run.py:_wait_for_finish():1360] got exit ret: uuid: "b1f32a2448c04e71abd5a46828abb5f4"
+response {
+  poll_exit_response {
+    file_counts {
+      wandb_count: 5
+      media_count: 1
+    }
+    pusher_stats {
+      uploaded_bytes: 34115
+      total_bytes: 34115
+    }
+  }
+}
+
+2020-10-18 10:10:37,670 INFO    MainThread:1335 [wandb_run.py:_wait_for_finish():1360] got exit ret: uuid: "634b36a7dd294a1bb09e93609e225a16"
+response {
+  poll_exit_response {
+    done: true
+    exit_result {
+    }
+    file_counts {
+      wandb_count: 5
+      media_count: 1
+    }
+    pusher_stats {
+      uploaded_bytes: 34115
+      total_bytes: 34115
+    }
+  }
+}
+
+2020-10-18 10:10:38,765 INFO    MainThread:1335 [wandb_run.py:_show_summary():1488] rendering summary
+2020-10-18 10:10:38,766 INFO    MainThread:1335 [wandb_run.py:_show_history():1526] rendering history
+2020-10-18 10:10:38,767 INFO    MainThread:1335 [wandb_run.py:_show_files():1554] logging synced files
+2020-10-18 10:10:38,767 INFO    MainThread:1335 [internal.py:handle_exit():137] Internal process exited
