@@ -9,7 +9,7 @@ import torch
 import torchvision
 
 from conf import settings
-from src.utils import get_training_dataloader, get_test_dataloader, WarmUpLR
+from src.utils import get_training_dataloader, get_test_dataloader
 from src.model import FuseNet
 
 import warnings
@@ -20,7 +20,8 @@ import wandb
 from google.cloud import storage
 
 def train(epoch):
-
+    
+    avg_loss = 0.0
     start = time.time()
     net.train()
     for batch_index, (images, labels) in enumerate(cifar100_training_loader):
@@ -34,11 +35,9 @@ def train(epoch):
         #print(labels.size())
         loss = loss_function(outputs, labels)
         loss.backward()
+        avg_loss+=loss.item()
         optimizer.step()
-        
-        if epoch <= args.warm:
-            warmup_scheduler.step()
-        
+         
         n_iter = (epoch - 1) * len(cifar100_training_loader) + batch_index + 1
 
         last_layer = list(net.children())[-1]
@@ -58,8 +57,12 @@ def train(epoch):
                 })
         
         #update training loss for each iteration
-
-
+    
+    wandb.log({
+        "Average Train Loss": avg_loss/len(cifar100_training_loader.dataset),
+        "LR":optimizer.param_groups[0]['lr']
+    }) 
+    
     finish = time.time()
     
     print('\repoch {} training time consumed: {:.2f}s'.format(epoch, finish - start), end = "")
@@ -90,11 +93,6 @@ def eval_training(epoch):
         correct += preds.eq(labels).sum()
     
     finish = time.time()
-    if args.gpu:
-        print('\rGPU INFO.....', end = "")
-        sys.stdout.flush()
-        print(torch.cuda.memory_summary(), end='')
-        sys.stdout.flush()
     print('\rEvaluating Network.....', end = "")
     sys.stdout.flush()
     print('\rTest set: Average loss: {:.4f}, Accuracy: {:.4f}, Time consumed:{:.2f}s'.format(
@@ -103,13 +101,12 @@ def eval_training(epoch):
         finish - start
     ), end = "")
     sys.stdout.flush()
-    print('\n')
     #add informations to tensorboard
-
+    print('\n')
     wandb.log({
         "Test Accuracy": 100. * correct / len(cifar100_test_loader.dataset),
         "Test Loss": test_loss/len(cifar100_test_loader.dataset)})   
- 
+    lr_scheduler.step(test_loss / len(cifar100_test_loader.dataset))
     return correct.float() / len(cifar100_test_loader.dataset)
 
 def save_model(args, name):
@@ -162,15 +159,9 @@ if __name__ == '__main__':
         help='batch size for dataloader'
     )
     parser.add_argument(
-        '--warm', 
-        type=int, 
-        default=1, 
-        help='warm up training phase'
-    )
-    parser.add_argument(
         '--learning-rate', 
         type=float, 
-        default=0.1, 
+        default=0.01, 
         help='initial learning rate'
     )
     parser.add_argument(
@@ -215,7 +206,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--weight-decay', 
         type=float, 
-        default=5e-4, 
+        default=0.1, 
         help='weight decay rate'
     )
     parser.add_argument(
@@ -260,10 +251,23 @@ if __name__ == '__main__':
     )
 
     loss_function = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(net.parameters(), lr=args.learning_rate, momentum=args.momentum, weight_decay=args.weight_decay)
-    train_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=MILESTONES, gamma=args.gamma) #learning rate decay
+
+    optimizer = torch.optim.SGD(
+        net.parameters(), 
+        lr=args.learning_rate, 
+        momentum=args.momentum, 
+        weight_decay=args.weight_decay
+    )
+         
+    lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, 
+        factor=args.gamma,
+        mode = 'min',
+        patience = 5
+    )
+    
     iter_per_epoch = len(cifar100_training_loader)
-    warmup_scheduler = WarmUpLR(optimizer, iter_per_epoch * args.warm)
+    
     checkpoint_path = os.path.join(settings.CHECKPOINT_PATH, 'fuse', settings.TIME_NOW)
 
     #create checkpoint folder to save model
@@ -275,9 +279,6 @@ if __name__ == '__main__':
     
     best_acc = 0.0
     for epoch in range(1, args.epochs):
-        if epoch > args.warm:
-            train_scheduler.step(epoch)
-
         train(epoch)
         acc = eval_training(epoch)
 
@@ -294,4 +295,3 @@ if __name__ == '__main__':
             torch.save(net.state_dict(), name)
             wandb.save(name)
             save_model(args, name)
-

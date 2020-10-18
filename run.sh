@@ -5,7 +5,6 @@ BUCKET_ID=assignment3cs6886
 python train.py \
     --gpu False \
     --batch-size 64 \
-    --warm 1 \
     --learning-rate 0.01 \
     --momentum 0.6 \
     --height 224 \

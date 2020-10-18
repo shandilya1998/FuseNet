@@ -1,0 +1,28 @@
+Files already downloaded and verified
+Files already downloaded and verified
+epoch 1 training time consumed: 0.67sEvaluating Network.....Test set: Average loss: 0.0723, Accuracy: 0.0100, Time consumed:15.88s
+
+epoch 2 training time consumed: 0.16sEvaluating Network.....Test set: Average loss: 0.0723, Accuracy: 0.0100, Time consumed:14.51s
+
+epoch 3 training time consumed: 0.15sEvaluating Network.....Test set: Average loss: 0.0723, Accuracy: 0.0100, Time consumed:14.55s
+
+epoch 4 training time consumed: 0.15sEvaluating Network.....Test set: Average loss: 0.0723, Accuracy: 0.0100, Time consumed:15.30s
+
+epoch 5 training time consumed: 0.14sTraceback (most recent call last):
+  File "train.py", line 297, in <module>
+    acc = eval_training(epoch)
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/torch/autograd/grad_mode.py", line 49, in decorate_no_grad
+    return func(*args, **kwargs)
+  File "train.py", line 91, in eval_training
+    outputs = net(images)
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/src/model.py", line 174, in forward
+    x = self.conv1(x)
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/torch/nn/modules/conv.py", line 345, in forward
+    return self.conv2d_forward(input, self.weight)
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/torch/nn/modules/conv.py", line 342, in conv2d_forward
+    self.padding, self.dilation, self.groups)
+KeyboardInterrupt
