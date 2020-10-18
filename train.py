@@ -120,7 +120,7 @@ def save_model(args, name):
     prefix = '{}{}/'.format(scheme, bucket_name)
     bucket_path = args.job_dir[len(prefix):].rstrip('/')
 
-    datetime_ = datetime.datetime.now().strftime('model_%Y%m%d_%H%M%S')
+    datetime_ = datetime.now().strftime('model_%Y%m%d_%H%M%S')
 
     if bucket_path:
         model_path = '{}/{}/{}'.format(bucket_path, datetime_, name)
