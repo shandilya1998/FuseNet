@@ -62,9 +62,9 @@ gcloud beta ai-platform jobs submit training ${JOB_NAME} \
     --height 224 \
     --width 224 \
     --channels 3 \
-    --epochs 200 \
+    --epochs 600 \
     --seed 42 \
-    --log-interval 20 \
+    --log-interval 40 \
     --gamma 0.2 \
     --weight-decay 0.01 
 

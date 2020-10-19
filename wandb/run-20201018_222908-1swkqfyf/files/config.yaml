@@ -1,0 +1,52 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.10.7
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.7.3
+batch_size:
+  desc: null
+  value: 64
+channels:
+  desc: null
+  value: 3
+checkpoint_path:
+  desc: null
+  value: gs://assignment3cs6886/models_2/gpu/model_20201018_162211/checkpoint/fuse/Sunday_18_October_2020_14h_46m_07s/fuse-190-best.pth
+epochs:
+  desc: null
+  value: 100
+gamma:
+  desc: null
+  value: 0.2
+gpu:
+  desc: null
+  value: false
+height:
+  desc: null
+  value: 224
+job_dir:
+  desc: null
+  value: gs://assignment3cs6886/models/gpu
+learning_rate:
+  desc: null
+  value: 0.01
+log_interval:
+  desc: null
+  value: 20
+momentum:
+  desc: null
+  value: 0.6
+seed:
+  desc: null
+  value: 42
+weight_decay:
+  desc: null
+  value: 0.0005
+width:
+  desc: null
+  value: 224

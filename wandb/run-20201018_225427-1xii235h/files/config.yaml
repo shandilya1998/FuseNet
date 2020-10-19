@@ -1,0 +1,55 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.10.7
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.7.3
+batch_size:
+  desc: null
+  value: 125
+beta1:
+  desc: null
+  value: 0.9
+beta2:
+  desc: null
+  value: 0.999
+channels:
+  desc: null
+  value: 3
+epochs:
+  desc: null
+  value: 100
+eps:
+  desc: null
+  value: 1.0e-08
+gamma:
+  desc: null
+  value: 0.2
+gpu:
+  desc: null
+  value: false
+height:
+  desc: null
+  value: 224
+job_dir:
+  desc: null
+  value: gs://assignment3cs6886/models/gpu
+learning_rate:
+  desc: null
+  value: 0.001
+log_interval:
+  desc: null
+  value: 20
+seed:
+  desc: null
+  value: 42
+weight_decay:
+  desc: null
+  value: 0.0005
+width:
+  desc: null
+  value: 224

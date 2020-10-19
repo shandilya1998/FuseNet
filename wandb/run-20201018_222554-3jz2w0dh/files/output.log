@@ -1,0 +1,21 @@
+Files already downloaded and verified
+Files already downloaded and verified
+gs://assignment3cs6886/models_2/gpu/model_20201018_162211/checkpoint/fuse/Sunday_18_October_2020_14h_46m_07s/fuse-190-best.pth
+Traceback (most recent call last):
+  File "train.py", line 299, in <module>
+    net, optimizer, start_epoch = load_ckp(args.checkpoint_path, net, optimizer, args.bucket_id)
+  File "train.py", line 145, in load_ckp
+    client = storage.Client()
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/google/cloud/storage/client.py", line 118, in __init__
+    _http=_http,
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/google/cloud/client.py", line 249, in __init__
+    _ClientProjectMixin.__init__(self, project=project)
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/google/cloud/client.py", line 201, in __init__
+    project = self._determine_default(project)
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/google/cloud/client.py", line 216, in _determine_default
+    return _determine_default_project(project)
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/google/cloud/_helpers.py", line 186, in _determine_default_project
+    _, project = google.auth.default()
+  File "/Users/shreyasshandilya/Desktop/Shandilya/Padhai/CS6886/assignment3/venv/lib/python3.7/site-packages/google/auth/_default.py", line 354, in default
+    raise exceptions.DefaultCredentialsError(_HELP_MESSAGE)
+google.auth.exceptions.DefaultCredentialsError: Could not automatically determine credentials. Please set GOOGLE_APPLICATION_CREDENTIALS or explicitly create credentials and re-run the application. For more information, please see https://cloud.google.com/docs/authentication/getting-started

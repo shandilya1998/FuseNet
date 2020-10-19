@@ -141,6 +141,24 @@ def str2bool(v):
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
+def load_ckp(checkpoint_fpath, model, optimizer):
+    scheme = 'gs://'
+    bucket_name = args.job_dir[len(scheme):].split('/')[0]
+    en_bucket = storage.Client().bucket(bucket_name)
+
+    en_model_blob = en_bucket.get_blob(checkpoint_fpath)
+    en_model = en_model_blob.download_as_string()
+
+    buff = io.BytesIO(en_model)
+    checkpoint = None
+    if args.gpu:
+        checkpoint = torch.load(buff, map_location=torch.device('gpu'))
+    else:
+        checkpoint = torch.load(buff, map_location=torch.device('cpu'))
+    model.load_state_dict(checkpoint['state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer'])
+    return model, optimizer, checkpoint['epoch']
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
@@ -204,6 +222,11 @@ if __name__ == '__main__':
         help='learning rate decay rate'
     )
     parser.add_argument(
+        '--checkpoint-path',  
+        default='', 
+        help='checkpoint path'
+    )  
+    parser.add_argument(
         '--weight-decay', 
         type=float, 
         default=0.1, 
@@ -228,9 +251,17 @@ if __name__ == '__main__':
     if args.gpu:
         net.cuda()    
 
-    wandb.init(entity="shandilya1998", project="assignment3-pytorch", config=args)
+    id_ = wandb.util.generate_id()
+    wandb.init(
+        id = id_, 
+        entity="shandilya1998", 
+        project="assignment3-pytorch", 
+        config=args, 
+        resume="allow"
+    )
+    
     wandb.watch_called = False
-    MILESTONES = [int(args.epochs/4), int(args.epochs/2), int(3*args.epochs/4)]
+    
     
     torch.manual_seed(args.seed)
     #data preprocessing:
@@ -265,6 +296,11 @@ if __name__ == '__main__':
         mode = 'min',
         patience = 5
     )
+
+    start_epoch = 0
+    if args.checkpoint_path:
+        print(args.checkpoint_path)
+        net, optimizer, start_epoch = load_ckp(args.checkpoint_path, net, optimizer)
     
     iter_per_epoch = len(cifar100_training_loader)
     
@@ -278,13 +314,13 @@ if __name__ == '__main__':
     wandb.watch(net, log="all")
     
     best_acc = 0.0
-    for epoch in range(1, args.epochs):
+    for epoch in range(start_epoch+1, start_epoch+args.epochs):
         train(epoch)
         acc = eval_training(epoch)
 
         name = checkpoint_path.format(net='fuse', epoch=epoch, type='best')
         #start to save best performance model after learning rate decay to 0.01
-        if epoch > MILESTONES[1] and best_acc < acc:
+        if best_acc < acc:
             torch.save(net.state_dict(), name)
             wandb.save(name)
             best_acc = acc
